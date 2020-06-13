@@ -268,10 +268,10 @@ parts:
     - flask
     - PyYAML
     - netifaces
+    - toml
     stage-packages:
     - python3-openssl
     - openssl
-    - toml
     - python3-requests
     - gunicorn3
   microk8s:

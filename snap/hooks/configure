@@ -2,6 +2,10 @@
 
 set -eux
 
+ARCH="$($SNAP/bin/uname -m)"
+export IN_SNAP_LD_LIBRARY_PATH="$SNAP/lib:$SNAP/usr/lib:$SNAP/lib/$ARCH-linux-gnu:$SNAP/usr/lib/$ARCH-linux-gnu"
+export PYTHONNOUSERSITE=false
+
 source $SNAP/actions/common/utils.sh
 
 # This is a one-off patch. It will allow us to refresh the beta snap without breaking the user's deployment.
@@ -94,7 +98,7 @@ then
 fi
 
 # Upgrade containerd configuration to v2
-sudo ${SNAP}/usr/bin/python3 ${SNAP}/actions/common/containerd-config-migrate.py
+LD_LIBRARY_PATH=$IN_SNAP_LD_LIBRARY_PATH ${SNAP}/usr/bin/python3 ${SNAP}/actions/common/containerd-config-migrate.py
 
 # Upgrading to containerd
 if [ ! -e ${SNAP_DATA}/args/containerd ] ||
